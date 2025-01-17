@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Forms</title>
+</head>
+<body>
+    <h1>HTML Form</h1>
+    <form id="userForm">
+        <label>Name:</label><br>
+        <input type="text" name="name" required><br><br>
+
+        <label>Age:</label><br>
+        <input type="number" name="age" required><br><br>
+
+        <label>Gender:</label><br>
+        <input type="radio" name="gender" value="Male" required>
+        <label>Male</label><br>
+        <input type="radio" name="gender" value="Female">
+        <label>Female</label><br>
+        <input type="radio" name="gender" value="Other">
+        <label>Other</label><br><br>
+
+        <label>Country:</label><br>
+        <select name="country" required>
+            <option value="">Select country</option>
+            <option value="India">India</option>
+            <option value="USA">USA</option>
+            <option value="Japan">Japan</option>
+            <option value="China">China</option>
+        </select><br><br>
+
+        <label>Technological Stack:</label><br>
+        <input type="checkbox" name="techStack" value="HTML">
+        <label>HTML</label><br>
+        <input type="checkbox" name="techStack" value="CSS">
+        <label>CSS</label><br>
+        <input type="checkbox" name="techStack" value="JS">
+        <label>JavaScript</label><br>
+        <input type="checkbox" name="techStack" value="React">
+        <label>React</label><br>
+        <input type="checkbox" name="techStack" value="React Native">
+        <label>React Native</label><br><br>
+
+        <label>Address:</label><br>
+        <textarea name="address" rows="6" required></textarea><br><br>
+
+        <label>Telephone:</label><br>
+        <input type="tel" name="telephone" required><br><br>
+
+        <label>Email:</label><br>
+        <input type="email" name="email" required><br><br>
+
+        <button type="reset">Reset</button>
+        <button type="button" onclick="validateAndSubmit()">Submit</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        function validateAndSubmit() {
+            const form = document.getElementById('userForm');
+            const formData = new FormData(form);
+
+            const requiredFields = ['name', 'age', 'gender', 'country', 'address', 'telephone', 'email'];
+            const missingFields = requiredFields.filter(field => !formData.get(field));
+
+            if (missingFields.length > 0) {
+                alert('Please fill out all required fields.');
+                return;
+            }
+
+            const techStack = formData.getAll('techStack');
+            if (techStack.length === 0) {
+                alert('Please select at least one technological stack.');
+                return;
+            }
+
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <h2>Submitted Data</h2>
+                <table>
+                    <tr><th>Field</th><th>Value</th></tr>
+                    <tr><td>Name</td><td>${formData.get('name')}</td></tr>
+                    <tr><td>Age</td><td>${formData.get('age')}</td></tr>
+                    <tr><td>Gender</td><td>${formData.get('gender')}</td></tr>
+                    <tr><td>Country</td><td>${formData.get('country')}</td></tr>
+                    <tr><td>Technological Stack</td><td>${techStack.join(', ')}</td></tr>
+                    <tr><td>Address</td><td>${formData.get('address')}</td></tr>
+                    <tr><td>Telephone</td><td>${formData.get('telephone')}</td></tr>
+                    <tr><td>Email</td><td>${formData.get('email')}</td></tr>
+                </table>
+            `;
+        }
+    </script>
+</body>
+</html>
